@@ -189,7 +189,7 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
   if (!this->dataPtr->plots.empty())
   {
     this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(
-        std::bind(&LinkPlot3DPlugin::OnUpdate(), this));
+        std::bind(&LinkPlot3DPlugin::OnUpdate, this));
   }
 }
 
