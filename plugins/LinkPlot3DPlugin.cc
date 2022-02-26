@@ -155,7 +155,7 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
       markerMsg.set_ns("plot_" + link->GetName());
       markerMsg.set_id(id++);
       markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-      markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
+      markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_LIST);
 
       // Material
       std::string mat;
@@ -222,6 +222,21 @@ void LinkPlot3DPlugin::OnUpdate()
     {
       plot.prevPoint = point;
       ignition::msgs::Set(plot.msg.add_point(), point);
+
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(0, 0, 0.05));
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(1, 0, 0.05));
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(1, 1, 0.05));
+
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(1, 1, 0.05));
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(2, 1, 0.05));
+      ignition::msgs::Set(markerMsg.add_point(),
+        ignition::math::Vector3d(2, 2, 0.05));
+
 
       // Reduce message array
       if (plot.msg.point_size() > 1000)
