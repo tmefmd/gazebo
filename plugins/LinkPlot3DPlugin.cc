@@ -222,13 +222,14 @@ void LinkPlot3DPlugin::OnUpdate()
     {
       plot.prevPoint = point;
       ignition::msgs::Set(plot.msg.mutable_pose(),
-                    ignition::math::Pose3d(point.x, point.y, 0, 0, 0));
-      ignition::msgs::Set(plot.msg.add_point(), point);
+                    ignition::math::Pose3d(point.x, point.y, 0, 0, 0, 0));
+      ignition::msgs::Set(plot.msg.add_point(),
+                    ignition::math::Vector3d(point.x, point.y, 0));
       ignition::msgs::Set(plot.msg.add_point(),
                     ignition::math::Vector3d(point.x+1, point.y, 0));
       ignition::msgs::Set(plot.msg.add_point(),
                     ignition::math::Vector3d(point.x, point.y+1, 0));
-                    
+
       // Reduce message array
       if (plot.msg.point_size() > 1000)
         plot.msg.mutable_point()->DeleteSubrange(0, 5);
