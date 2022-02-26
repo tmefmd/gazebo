@@ -230,12 +230,12 @@ void LinkPlot3DPlugin::OnUpdate()
       plot.prevPoint = point;
 
       ignition::msgs::Set(plot.msg.mutable_pose(),
-                    point);
+                    ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
 
       ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(0, 0, 0.05));
       double radius = 1.0;
-      for (double t = 0; t <= 2*M_PI; t+= 0.01)
+      for (double t = 0; t <= 2 * M_PI; t+= 0.01)
       {
         ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(radius * cos(t), radius * sin(t), 0.05));
