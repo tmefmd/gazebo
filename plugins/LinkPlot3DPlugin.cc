@@ -155,7 +155,7 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
       markerMsg.set_ns("plot_" + link->GetName());
       markerMsg.set_id(id++);
       markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-      markerMsg.set_type(ignition::msgs::Marker::LINE_STRIP);
+      markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
 
       // Material
       std::string mat;
