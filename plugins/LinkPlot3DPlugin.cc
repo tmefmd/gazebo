@@ -221,14 +221,16 @@ void LinkPlot3DPlugin::OnUpdate()
     if (point.Distance(plot.prevPoint) > 0.05)
     {
       plot.prevPoint = point;
-      ignition::msgs::Set(plot.msg.mutable_pose(),
-                    ignition::math::Pose3d(point.x, point.y, 0, 0, 0, 0));
+      ignition::msgs::Set(markerMsg.mutable_pose(), point);
       ignition::msgs::Set(plot.msg.add_point(),
-                    ignition::math::Vector3d(point.x, point.y, 0));
+          ignition::math::Vector3d(point.x, point.y, 0));
       ignition::msgs::Set(plot.msg.add_point(),
-                    ignition::math::Vector3d(point.x+1, point.y, 0));
+          ignition::math::Vector3d(point.x+1, point.y, 0));
       ignition::msgs::Set(plot.msg.add_point(),
-                    ignition::math::Vector3d(point.x, point.y+1, 0));
+          ignition::math::Vector3d(point.x+1, point.y, 0));
+
+
+
 
       // Reduce message array
       if (plot.msg.point_size() > 1000)
