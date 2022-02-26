@@ -221,7 +221,7 @@ void LinkPlot3DPlugin::OnUpdate()
     if (point.Distance(plot.prevPoint) > 0.05)
     {
       plot.prevPoint = point;
-      ignition::msgs::Set(markerMsg.mutable_pose(), point);
+      ignition::msgs::Set(plot.msg.mutable_pose(), point);
       ignition::msgs::Set(plot.msg.add_point(),
           ignition::math::Vector3d(point.x, point.y, 0));
       ignition::msgs::Set(plot.msg.add_point(),
