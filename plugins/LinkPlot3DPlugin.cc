@@ -189,12 +189,12 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
   if (!this->dataPtr->plots.empty())
   {
     this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(
-        std::bind(&LinkPlot3DPlugin::OnUpdate(int), this));
+        std::bind(&LinkPlot3DPlugin::OnUpdate(), this));
   }
 }
 
 /////////////////////////////////////////////////
-void LinkPlot3DPlugin::OnUpdate(int)
+void LinkPlot3DPlugin::OnUpdate()
 {
   IGN_PROFILE("LinkPlot3DPlugin::OnUpdate");
   IGN_PROFILE_BEGIN("Update");
@@ -231,13 +231,14 @@ void LinkPlot3DPlugin::OnUpdate(int)
 
       ignition::msgs::Set(plot.msg.mutable_pose(),
                     ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
+
       ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(0, 0, 0.05));
       double radius = 1.0;
       for (double t = 0; t <= M_PI; t+= 0.01)
       {
         ignition::msgs::Set(plot.msg.add_point(),
-            ignition::math::Vector3d(radius * cos(t),  radius * sin(t), 0.05));
+            ignition::math::Vector3d(radius * cos(t), radius * sin(t), 0.05));
       }
       // ignition::msgs::Set(plot.msg.mutable_pose(),
       //                 ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
