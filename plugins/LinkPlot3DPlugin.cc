@@ -228,12 +228,17 @@ void LinkPlot3DPlugin::OnUpdate()
     if (point.Distance(plot.prevPoint) > 0.05)
     {
       plot.prevPoint = point;
-      
+
+      plot.msg.set_ns("plot_" + link->GetName());
+      plot.msg.set_id(id++);
+      plot.msg.set_action(ignition::msgs::Marker::ADD_MODIFY);
+      plot.msg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
+      plot.msg.clear_point();
       ignition::msgs::Set(plot.msg.mutable_pose(),
                     ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
       ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(point.X(), point.Y(), 0.05));
-      double radius = 2;
+      double radius = 0.5;
       for (double t = 0; t <= 2 * M_PI; t+= 0.01)
       {
         ignition::msgs::Set(plot.msg.add_point(),
