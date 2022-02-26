@@ -189,12 +189,12 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
   if (!this->dataPtr->plots.empty())
   {
     this->dataPtr->updateConnection = event::Events::ConnectWorldUpdateBegin(
-        std::bind(&LinkPlot3DPlugin::OnUpdate, this));
+        std::bind(&LinkPlot3DPlugin::OnUpdate(int), this));
   }
 }
 
 /////////////////////////////////////////////////
-void LinkPlot3DPlugin::OnUpdate()
+void LinkPlot3DPlugin::OnUpdate(int)
 {
   IGN_PROFILE("LinkPlot3DPlugin::OnUpdate");
   IGN_PROFILE_BEGIN("Update");
@@ -229,20 +229,15 @@ void LinkPlot3DPlugin::OnUpdate()
     {
       plot.prevPoint = point;
 
-      plot.msg.set_ns("plot_" + link->GetName());
-      plot.msg.set_id(id++);
-      plot.msg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-      plot.msg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
-      plot.msg.clear_point();
       ignition::msgs::Set(plot.msg.mutable_pose(),
                     ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
       ignition::msgs::Set(plot.msg.add_point(),
-            ignition::math::Vector3d(point.X(), point.Y(), 0.05));
-      double radius = 0.5;
-      for (double t = 0; t <= 2 * M_PI; t+= 0.01)
+            ignition::math::Vector3d(0, 0, 0.05));
+      double radius = 1.0;
+      for (double t = 0; t <= M_PI; t+= 0.01)
       {
         ignition::msgs::Set(plot.msg.add_point(),
-            ignition::math::Vector3d(point.X() + radius * cos(t),  point.Y() + radius * sin(t), 0.05));
+            ignition::math::Vector3d(radius * cos(t),  radius * sin(t), 0.05));
       }
       // ignition::msgs::Set(plot.msg.mutable_pose(),
       //                 ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
