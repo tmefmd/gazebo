@@ -30,6 +30,10 @@
 #include "gazebo/physics/physics.hh"
 #include "plugins/LinkPlot3DPlugin.hh"
 
+#include <ignition/math.hh>
+#include <iostream>
+
+
 using namespace gazebo;
 
 GZ_REGISTER_MODEL_PLUGIN(LinkPlot3DPlugin)
@@ -155,7 +159,10 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
       markerMsg.set_ns("plot_" + link->GetName());
       markerMsg.set_id(id++);
       markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-      markerMsg.set_type(ignition::msgs::Marker::SPHERE);
+      markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
+      markerMsg.clear_point();
+      // ignition::msgs::Material *matMsg = markerMsg.mutable_material();
+      // matMsg->mutable_script()->set_name("Gazebo/BlueLaser");
 
       // Material
       std::string mat;
@@ -221,8 +228,19 @@ void LinkPlot3DPlugin::OnUpdate()
     if (point.Distance(plot.prevPoint) > 0.05)
     {
       plot.prevPoint = point;
+      
       ignition::msgs::Set(plot.msg.mutable_pose(),
-                      ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
+                    ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
+      ignition::msgs::Set(plot.msg.add_point(),
+            ignition::math::Vector3d(point.X(), point.Y(), 0.05));
+      double radius = 2;
+      for (double t = 0; t <= 2 * M_PI; t+= 0.01)
+      {
+        ignition::msgs::Set(plot.msg.add_point(),
+            ignition::math::Vector3d(point.X() + radius * cos(t),  point.Y() + radius * sin(t), 0.05));
+      }
+      // ignition::msgs::Set(plot.msg.mutable_pose(),
+      //                 ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
 
       // Reduce message array
       if (plot.msg.point_size() > 1000)
