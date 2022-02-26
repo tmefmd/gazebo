@@ -164,13 +164,11 @@ int main(int _argc, char **_argv)
   markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
   markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_LIST);
   markerMsg.clear_point();
-
-  double point=ignition::math::Pose3d(0, -1.5, 0, 0, 0, 0));
-
+  ignition::math::Vector3d point(0, 0, 0.05);
   ignition::msgs::Set(markerMsg.mutable_pose(),
                     ignition::math::Pose3d(0, -1.5, 0, 0, 0, 0));
   ignition::msgs::Set(markerMsg.add_point(),
-        ignition::math::Vector3d(0, 0, 0.05));
+        ignition::math::Vector3d(0, 0, point.Z()));
   ignition::msgs::Set(markerMsg.add_point(),
       ignition::math::Vector3d(1, 0, 0.05));
   ignition::msgs::Set(markerMsg.add_point(),
