@@ -244,7 +244,7 @@ void LinkPlot3DPlugin::OnUpdate()
       //                 ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
 
       // Reduce message array
-      if (plot.msg.point_size() > 1000)
+      if (plot.msg.point_size() > 10000)
         plot.msg.mutable_point()->DeleteSubrange(0, 5);
 
       // plot.prevPoint = point;
