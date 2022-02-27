@@ -225,7 +225,7 @@ void LinkPlot3DPlugin::OnUpdate()
     auto point = (plot.pose + plot.link->WorldPose()).Pos();
 
     // Only add points if the distance is past a threshold.
-    if (point.Distance(plot.prevPoint) > 1.5)
+    if (point.Distance(plot.prevPoint) > 4.0)
     {
       plot.prevPoint = point;
 
@@ -235,7 +235,7 @@ void LinkPlot3DPlugin::OnUpdate()
       ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(0, 0, 0.05));
       double radius = 1.0;
-      for (double t = 0; t <= 2 * M_PI; t+= 0.01)
+      for (double t = 0; t <= 2 * M_PI; t+= 0.1)
       {
         ignition::msgs::Set(plot.msg.add_point(),
             ignition::math::Vector3d(radius * cos(t), radius * sin(t), 0.05));
