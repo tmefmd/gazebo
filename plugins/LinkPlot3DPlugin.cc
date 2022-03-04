@@ -159,8 +159,10 @@ void LinkPlot3DPlugin::Load(physics::ModelPtr _model,
       markerMsg.set_ns("plot_" + link->GetName());
       markerMsg.set_id(id++);
       markerMsg.set_action(ignition::msgs::Marker::ADD_MODIFY);
-      markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
+      // markerMsg.set_type(ignition::msgs::Marker::TRIANGLE_FAN);
+      markerMsg.set_type(ignition::msgs::Marker::SPHERE);
       markerMsg.clear_point();
+      
       // ignition::msgs::Material *matMsg = markerMsg.mutable_material();
       // matMsg->mutable_script()->set_name("Gazebo/BlueLaser");
 
@@ -231,15 +233,20 @@ void LinkPlot3DPlugin::OnUpdate()
 
       ignition::msgs::Set(plot.msg.mutable_pose(),
                     ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
+      ignition::msgs::Set(plot.msg.mutable_scale(),
+                    ignition::math::Vector3d(2.0, 2.0, 2.0));
 
-      ignition::msgs::Set(plot.msg.add_point(),
-            ignition::math::Vector3d(0, 0, 0.05));
-      double radius = 1.0;
-      for (double t = 0; t <= 2.0 * M_PI; t+= 0.01)
-      {
-        ignition::msgs::Set(plot.msg.add_point(),
-            ignition::math::Vector3d(radius * cos(t), radius * sin(t), 0.05));
-      }
+      // ignition::msgs::Set(plot.msg.mutable_pose(),
+      //               ignition::math::Pose3d(point.X(), point.Y(), 0, 0, 0, 0));
+
+      // ignition::msgs::Set(plot.msg.add_point(),
+      //       ignition::math::Vector3d(0, 0, 0.05));
+      // double radius = 1.0;
+      // for (double t = 0; t <= 2.0 * M_PI; t+= 0.01)
+      // {
+      //   ignition::msgs::Set(plot.msg.add_point(),
+      //       ignition::math::Vector3d(radius * cos(t), radius * sin(t), 0.05));
+      // }
       // ignition::msgs::Set(plot.msg.mutable_pose(),
       //                 ignition::math::Pose3d(point.X(), point.Y(), point.Z(), 0, 0, 0));
 
